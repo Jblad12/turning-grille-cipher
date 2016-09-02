@@ -1,6 +1,6 @@
 package algos;
 
-import util.Grille;
+import static algos.Grille.*;
 
 public class GrilleCipher {
 	public static char SPECIAL_CHAR = 'X';
@@ -10,11 +10,48 @@ public class GrilleCipher {
 	
 	public GrilleCipher(String plaintext) {
 		this.plaintext = plaintext;
-		plaintextLength = plaintext.length();
+		this.plaintextLength = plaintext.length();
+		this.fixPlaintext();
 	}
 	
-	public static Grille generateRandomKey() {
-		return null;
+	public String getPlaintext() {
+		return plaintext;
+	}
+
+	public void setPlaintext(String plaintext) {
+		this.plaintext = plaintext;
+	}
+
+
+
+	public int getPlaintextLength() {
+		return plaintextLength;
+	}
+
+
+
+	public void setPlaintextLength(int plaintextLength) {
+		this.plaintextLength = plaintextLength;
+	}
+
+
+
+	/**
+	 * Generates a random key for encrypting and decrypting.
+	 * Inspired by: 
+	 * http://everything2.com/title/Turning+grill+transposition+cipher
+	 * @return the random key
+	 */
+	public Grille generateRandomKey() {
+		int n = (int)Math.sqrt(getPlaintextLength());
+		Grille key = new Grille(n);
+		key.initialize();
+		Grille section1 = key.getSubgrille(SECTION1);
+		Grille section2 = section1.rotateRight();
+		Grille section3 = section2.rotateRight();
+		Grille section4 = section3.rotateRight();
+		
+		return key;
 	}
 	
 	public static boolean isSquare(int n) {
@@ -32,12 +69,12 @@ public class GrilleCipher {
 		}
 	}
 	
-	public String fixPlaintext() {
+	public void fixPlaintext() {
 		StringBuilder fixedPlaintext = new StringBuilder(plaintext);
 		for (int i = plaintextLength - 1; i < nextSquare(plaintextLength); ++i) {
 			fixedPlaintext.append(SPECIAL_CHAR);
 		}
-		return fixedPlaintext.toString();
+		this.plaintext = fixedPlaintext.toString();
 	}
 	
 	
