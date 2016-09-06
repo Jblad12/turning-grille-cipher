@@ -5,19 +5,16 @@ import algos.GrilleCipher;
 
 public class MainProgram {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		// Testing the grille
-		Grille grille = new Grille(6);
-		grille.initialize();
-		grille.display();
-		grille.randomFill();
-		grille.display();
-		System.out.println("---------------------------");
-		grille = grille.rotateRight();
-		grille.display();
-		System.out.println("--------------Sub grid 4-------------");
-		Grille subgrille = grille.getSubgrille(Grille.SECTION3);
-		subgrille.display();
+	
+		GrilleCipher cipher = new GrilleCipher("jimattacksatdawnnowinthemorning");
+		Grille key = cipher.generateRandomKey();
+		//key.display();
+		//cipher.displayKeyPositions();
+		System.out.println(cipher.encrypt());
 		
 	}
 
