@@ -2,6 +2,11 @@ package algos;
 
 import static algos.GrilleCipher.*;
 
+/**
+ * A class that represents a grille
+ * @author Mauricio Mejía Castro
+ *
+ */
 public class Grille {
 	public static final int SECTION1 = 1;
 	public static final int SECTION2 = 2;
@@ -46,17 +51,29 @@ public class Grille {
 		elements[i][j] = element;
 	}
 
-	public Grille rotateRight() {
+	public Grille rightRotation() {
+		// Don't touch it, it is perfect
 		Grille rightGrille = new Grille(n);
 		String[][] rightRotatedMatrix = new String[n][n];
 		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; j++) {
-				rightRotatedMatrix[i][j] = elements[n-j-1][i];
-				//rightRotatedMatrix[n - j - 1][i] = elements[i][j];
+			for (int j = 0; j < n; ++j) {
+				rightRotatedMatrix[i][j] = elements[n - j - 1][i];
 			}
 		}
 		rightGrille.setElements(rightRotatedMatrix);
 		return rightGrille;
+	}
+	
+	public Grille leftRotation() {
+		Grille leftGrille = new Grille(n);
+		String[][] leftRotatedMatrix = new String[n][n];
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < n; ++j) {
+				leftRotatedMatrix[i][j] = elements[j][n - i - 1];
+			}
+		}
+		leftGrille.setElements(leftRotatedMatrix);
+		return leftGrille;
 	}
 
 
@@ -68,6 +85,16 @@ public class Grille {
 			}
 		}
 		elements = leftRotatedMatrix;
+	}
+	
+	public void rotateRight() {
+		String[][] rightRotatedMatrix = new String[n][n];
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < n; j++) {
+				rightRotatedMatrix[i][j] = elements[n - j - 1][i];
+			}
+		}
+		elements = rightRotatedMatrix;
 	}
 
 	public void display() {

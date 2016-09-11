@@ -9,9 +9,11 @@ public class MainProgram {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	
-		GrilleCipher cipher = new GrilleCipher("jimattacksatdawnnowinthemorning");
-		cipher.encrypt();
+		String plaintext = "jimattacksatdawnnowinthemorning";
+		GrilleCipher cipher = new GrilleCipher(plaintext);
+		Grille key = cipher.generateRandomKey();
+		String ciphertext = cipher.encrypt(key);
+		System.out.println("Ciphertext: " + ciphertext);
 		//key.display();
 		//cipher.displayKeyPositions();
 		//System.out.println(cipher.encrypt());
