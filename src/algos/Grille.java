@@ -1,5 +1,7 @@
 package algos;
 
+import static algos.GrilleCipher.*;
+
 public class Grille {
 	public static final int SECTION1 = 1;
 	public static final int SECTION2 = 2;
@@ -57,21 +59,12 @@ public class Grille {
 		return rightGrille;
 	}
 
-	public Grille especialRotateRight(Grille rightRotated) {
-		Grille rightGrille = rightRotated;
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; j++) {
-				rightRotated.set(i, j, elements[i][j]);
-			}
-		}
-		return rightGrille;
-	}
 
 	public void rotateLeft() {
 		String[][] leftRotatedMatrix = new String[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; j++) {
-				leftRotatedMatrix[i][j] = elements[n - j - 1][i];
+				leftRotatedMatrix[i][j] = elements[j][n - i - 1];
 			}
 		}
 		elements = leftRotatedMatrix;
@@ -172,11 +165,19 @@ public class Grille {
 		int N = key.getN();
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (key.get(i, j).equals(GrilleCipher.SPECIAL_CHAR + "")) {
-					this.set(i, j, GrilleCipher.SPECIAL_CHAR + "");
+				if (key.get(i, j).equals(SLOT)) {
+					this.set(i, j, SLOT);
 				} else {
-					this.set(i, j, "0");
+					this.set(i, j, UNMARKED);
 				}
+			}
+		}
+	}
+	
+	public void initializeDefault() {
+		for (int i = 0; i < getN(); i++) {
+			for (int j = 0; j < getN(); j++) {
+				this.set(i, j, UNMARKED);
 			}
 		}
 	}
@@ -187,13 +188,13 @@ public class Grille {
 			Grille merged = new Grille(N);
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < N; j++) {
-					if (first.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+"") && !second.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+""))
+					if (first.get(i, j).equals(UNMARKED) && !second.get(i, j).equals(UNMARKED))
 						merged.set(i, j, second.get(i, j));
-					else if (!first.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+"") && second.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+""))
+					else if (!first.get(i, j).equals(UNMARKED) && second.get(i, j).equals(UNMARKED))
 						merged.set(i, j, first.get(i, j));
-					else if (first.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+"") && second.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+""))
-						merged.set(i, j, GrilleCipher.DEFAULT_CHAR+"");
-					else if (!first.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+"") && !second.get(i, j).equals(GrilleCipher.DEFAULT_CHAR+""))
+					else if (first.get(i, j).equals(UNMARKED) && second.get(i, j).equals(UNMARKED))
+						merged.set(i, j, UNMARKED);
+					else if (!first.get(i, j).equals(UNMARKED) && !second.get(i, j).equals(UNMARKED))
 						merged.set(i, j, Math.random() > 0.5 ? first.get(i, j) : second.get(i, j));//merged.set(i, j, first.get(i, j));
 				}
 			}
